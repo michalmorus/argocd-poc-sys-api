@@ -1,12 +1,13 @@
 version: '3'
 
 services:
-  server1:
+  server:
     build:
       context: .
       dockerfile: ./Dockerfile.dev
+    env_file: .env
     ports:
-      - "8080:8080"
+      - "${APP_PORT:-8080}:${APP_PORT:-8080}"
     volumes:
       - .:/app
     networks:

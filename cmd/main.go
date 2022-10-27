@@ -2,8 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"os"
 	"runtime"
+	"time"
 )
 
 func main() {
@@ -18,13 +21,19 @@ func main() {
 			"totalAlloc": bToMb(m.TotalAlloc),
 			"sys":        bToMb(m.Sys),
 			"numGC":      m.NumGC,
+			"time":       time.Now().Format("15:04:05.000000"),
 		}
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(data)
 	})
 
-	http.ListenAndServe(":8080", nil)
+	port := fmt.Sprintf(":%s", os.Getenv("APP_PORT"))
+	if err := http.ListenAndServe(port, nil); err != nil {
+		panic(err)
+	}
+
+	fmt.Println("listen on ", port)
 }
 
 func bToMb(b uint64) uint64 {
