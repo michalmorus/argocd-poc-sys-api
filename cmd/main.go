@@ -14,6 +14,7 @@ func main() {
 		runtime.ReadMemStats(&m)
 
 		c.JSON(http.StatusOK, gin.H{
+			"version":    "1.0.0",
 			"name":       "server1",
 			"alloc":      bToMb(m.Alloc),
 			"totalAlloc": bToMb(m.TotalAlloc),
