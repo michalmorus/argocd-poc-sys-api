@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  server1:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    networks:
+      - argocd-poc.network
+
+networks:
+  argocd-poc.network:
+    driver: bridge
